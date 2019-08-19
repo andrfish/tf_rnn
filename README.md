@@ -1,3 +1,6 @@
+# Fork Description
+The purpose of this fork is to update the codebase to work with Python 3.7 with GPU processing
+
 # TF_RNN
 This repository contains a special Bidirectional Recursive Neural Network implemented with Tensorflow described in [1](#leveraging-linguistic-structures-for-named-entity-recognition-with-bidirectional-recursive-neural-networks).
 ```python
