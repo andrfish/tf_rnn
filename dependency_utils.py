@@ -90,7 +90,7 @@ if __name__ == "__main__":
     
     """
     rlist, root = get_reversed_head_list([3,3,3,-1,6,6,3,6,11,10,11,6])
-    print "root", root
+    print("root", root
     for i, j in enumerate(rlist):
         print i, j
     """

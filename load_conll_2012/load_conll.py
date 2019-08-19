@@ -3,7 +3,7 @@ import coreference_reading
 def load_data(config):
     suffix = config["file_suffix"]
     dir_prefix = config["dir_prefix"]
-    print "Load conll documents from:", dir_prefix, " with suffix = ", suffix
+    print("Load conll documents from:", dir_prefix, " with suffix = ", suffix)
     data = None
     count = 0
     source = ""
@@ -20,7 +20,7 @@ def load_data(config):
                 source2 = filename[:index]
             if source != source2:
                 source = source2
-                print " <%s>" % source
+                print(" <%s>" % source)
             #print '    ' + filename
             
             data = coreference_reading.read_conll_doc(file_path, data)
@@ -29,7 +29,7 @@ def load_data(config):
         print ("Cannot load data in '%s' with suffix '%s'" %
             (dir_prefix, suffix))
         sys.exit(1)
-    print "Total doc.: " + str(count)
+    print("Total doc.: " + str(count))
 
     return data
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
               "dir_prefix": "conll-2012/v4/data/train/data/english/annotations/bc/cnn"}
     data = load_data(config)
     for doc in data:
-        print 'document:', doc
+        print('document:', doc)
         for part in data[doc]:
             yolo = False
             for text in data[doc][part]["text"]:
@@ -47,33 +47,33 @@ if __name__ == '__main__':
                     break
             if not yolo: continue
             
-            print 'part:', part
-            print 'attrs.:', data[doc][part].keys()
+            print('part:', part)
+            print('attrs.:', data[doc][part].keys())
             
-            print "\narrtr: <text>"
+            print("\narrtr: <text>")
             text = data[doc][part]["text"]
-            print type(text)
-            print len(text)
-            print text[0]
+            print(type(text))
+            print(len(text))
+            print(text[0])
             
-            print "\narrtr: <parses>"
+            print("\narrtr: <parses>")
             parses = data[doc][part]["parses"]
-            print type(parses)
-            print len(parses)
-            print parses[0]
+            print(type(parses))
+            print(len(parses))
+            print(parses[0])
             
-            print "\narrtr: <ner>"
+            print("\narrtr: <ner>")
             ner = data[doc][part]["ner"]
-            print type(ner)
-            print len(ner)
-            print ner
+            print(type(ner))
+            print(len(ner))
+            print(ner)
             
-            print "\narrtr: <heads>"
+            print("\narrtr: <heads>")
             heads = data[doc][part]["heads"]
-            print type(heads)
-            print len(heads)
-            for i, j in heads[0].iteritems(): print i,j
-            print len(heads[0])
-            print heads[0][((5,13), u"VP")]
-            print heads[0][((0,14), u"S")]
+            print(type(heads))
+            print(len(heads))
+            for i, j in heads[0].iteritems(): print(i,j)
+            print(len(heads[0]))
+            print(heads[0][((5,13), u"VP")])
+            print(heads[0][((0,14), u"S")])
             exit()

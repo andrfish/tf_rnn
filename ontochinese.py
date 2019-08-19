@@ -246,10 +246,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         for pos in pos_count[split]:
             total_pos_count[pos] += pos_count[split][pos]
     nodes = sum(total_pos_count.itervalues())
-    print "\nTotal %d nodes" % nodes
-    print "-"*50 + "\n   POS   count  ratio\n" + "-"*50
+    print("\nTotal %d nodes" % nodes
+    print("-"*50 + "\n   POS   count  ratio\n" + "-"*50
     for pos, count in sorted(total_pos_count.iteritems(), key=lambda x: x[1], reverse=True):
-        print "%6s %7d %5.1f%%" % (pos, count, count*100./nodes)
+        print("%6s %7d %5.1f%%" % (pos, count, count*100./nodes)
     
     # Show number of tokens and NEs in each split
     reals = 0
@@ -258,11 +258,11 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         if split == "test": continue
         split_nes_dict[split] = sum(len(ner) for ner in data[split][1])
         reals += split_nes_dict[split]
-    print "\nTotal %d named entities" % reals
-    print "-"*50 + "\n       split   token     NE\n" + "-"*50
+    print("\nTotal %d named entities" % reals
+    print("-"*50 + "\n       split   token     NE\n" + "-"*50
     for split in data_split_list:
         if split == "test": continue
-        print "%12s %7d %6d" % (split, word_count[split], split_nes_dict[split])
+        print("%12s %7d %6d" % (split, word_count[split], split_nes_dict[split])
     
     # Show NE distribution
     total_ne_count = defaultdict(lambda: 0)
@@ -272,10 +272,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
             if ne == "NONE": continue
             total_ne_count[ne] += ne_count[split][ne]
     nes = sum(total_ne_count.itervalues())
-    print "\nTotal %d spanned named entities" % nes
-    print "-"*50 + "\n          NE  count  ratio\n" + "-"*50
+    print("\nTotal %d spanned named entities" % nes
+    print("-"*50 + "\n          NE  count  ratio\n" + "-"*50
     for ne, count in sorted(total_ne_count.iteritems(), key=lambda x: x[1], reverse=True):
-        print "%12s %6d %5.1f%%" % (ne, count, count*100./nes)
+        print("%12s %6d %5.1f%%" % (ne, count, count*100./nes)
     
     # Show POS-NE distribution
     total_pos_ne_count = defaultdict(lambda: 0)
@@ -283,10 +283,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         if split == "test": continue
         for pos in pos_ne_count[split]:
             total_pos_ne_count[pos] += pos_ne_count[split][pos]
-    print "-"*50 + "\n   POS     NE   total  ratio\n" + "-"*50
+    print("-"*50 + "\n   POS     NE   total  ratio\n" + "-"*50
     for pos, count in sorted(total_pos_ne_count.iteritems(), key=lambda x: x[1], reverse=True):
         total = total_pos_count[pos]
-        print "%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total)
+        print("%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total)
     
     # Compute the mapping to labels
     ne_to_index["NONE"] = len(ne_to_index)

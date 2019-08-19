@@ -6,7 +6,7 @@ from collections import defaultdict
 
 import numpy as np
 
-sys.path.append("/home/danniel/Desktop/CONLL2012-intern")
+sys.path.append("D:/School/BRNN/tf_rnn/load_conll_2012")
 from load_conll import load_data
 from pstree import PSTree
 
@@ -20,13 +20,13 @@ ne_file = os.path.join(dataset, "ne.txt")
 pretrained_word_file = os.path.join(dataset, "word.npy")
 pretrained_embedding_file = os.path.join(dataset, "embedding.npy")
 
-data_path_prefix = "/home/danniel/Desktop/CONLL2012-intern/conll-2012/v4/data"
-test_auto_data_path_prefix = "/home/danniel/Downloads/wu_conll_test/v9/data"
+data_path_prefix = "D:/School/BRNN/conll-2012/v4/data"
+test_auto_data_path_prefix = "D:/School/BRNN/conll-2012/v9/data"
 data_path_suffix = "data/english/annotations"
     
-glove_file = "/home/danniel/Downloads/glove.840B.300d.txt"
+glove_file = "D:/School/BRNN/glove.840B.300d/glove.840B.300d.txt"
 
-senna_path = "/home/danniel/Downloads/senna/hash"
+senna_path = "D:/School/BRNN/senna/hash"
 dbpedia_path = "/home/danniel/Desktop/dbpedia_lexicon"
 lexicon_meta_list = [
     {"ne": "PERSON",      "encoding": "iso8859-15", "clean": os.path.join(dataset, "senna_PER.txt"),   "raw": os.path.join(senna_path, "ner.per.lst")}, 
@@ -159,17 +159,17 @@ def traverse_pyramid(ner_raw_data, text_raw_data, lexicon_list, span_set):
 def extract_clean_lexicon():
     lexicon_list = []
     
-    print "\nReading raw lexicons..."
+    print("\nReading raw lexicons...")
     for meta in lexicon_meta_list:
         lexicon_list.append(read_list_file(meta["raw"], encoding=meta["encoding"])[1])
-    print "-"*50 + "\n   ne  phrases shortest\n" + "-"*50
+    print("-"*50 + "\n   ne  phrases shortest\n" + "-"*50)
     for index, lexicon in enumerate(lexicon_list):
         for phrase in lexicon:
             lexicon[phrase] = [0.,0.]
         shortest_phrase = min(lexicon.iterkeys(), key=lambda phrase: len(phrase))
-        print "%12s %8d %s" % (lexicon_meta_list[index]["ne"], len(lexicon), shortest_phrase)
+        print("%12s %8d %s" % (lexicon_meta_list[index]["ne"], len(lexicon), shortest_phrase))
     
-    print "Reading training data..."
+    print("Reading training data...")
     data_split_list = ["train", "validate"]
     annotation_method_list = ["gold", "auto"]
     raw_data = {}
@@ -205,13 +205,13 @@ def extract_clean_lexicon():
                     traverse_pyramid(ner_raw_data[index], text_raw_data, lexicon_list, span_set)
     log(" done\n")
        
-    print "-"*50 + "\n   ne  phrases shortest\n" + "-"*50
+    print("-"*50 + "\n   ne  phrases shortest\n" + "-"*50)
     for index, lexicon in enumerate(lexicon_list):
         for phrase, count in lexicon.items():
             if count[0]>0 and count[1]/count[0]<0.1:
                 del lexicon[phrase]
         shortest_phrase = min(lexicon.iterkeys(), key=lambda phrase: len(phrase))
-        print "%12s %8d %s" % (lexicon_meta_list[index]["ne"], len(lexicon), shortest_phrase)
+        print("%12s %8d %s" % (lexicon_meta_list[index]["ne"], len(lexicon), shortest_phrase))
         
     for index, lexicon in enumerate(lexicon_list):
         meta = lexicon_meta_list[index]
@@ -255,8 +255,8 @@ def construct_node(node, tree, ner_raw_data, head_raw_data, text_raw_data,
         pos_ne_count[pos] += 1
         """
         if hasattr(tree, "head"):
-            print " ".join(text_raw_data)
-            print " ".join(text_raw_data[span[0]:span[1]])
+            print(" ".join(text_raw_data)
+            print(" ".join(text_raw_data[span[0]:span[1]])
             print ne
             print node.parent.head
             raw_input()
@@ -469,18 +469,18 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
                 f.write("%9d %s\n" % (count, phrase))
     
     # Show statistics of each data split 
-    print "-" * 80
-    print "%10s%10s%9s%9s%7s%12s%13s" % ("split", "sentence", "token", "node", "NE", "spanned_NE",
-        "lexicon_hit")
-    print "-" * 80
+    print("-" * 80)
+    print("%10s%10s%9s%9s%7s%12s%13s" % ("split", "sentence", "token", "node", "NE", "spanned_NE",
+        "lexicon_hit"))
+    print("-" * 80)
     for split in data_split_list:
-        print "%10s%10d%9d%9d%7d%12d%13d" % (split,
+        print("%10s%10d%9d%9d%7d%12d%13d" % (split,
             len(data[split]["tree_pyramid_list"]),
             word_count[split],
             sum(pos_count[split].itervalues()),
             sum(len(ner) for ner in data[split]["ner_list"]),
             sum(ne_count[split].itervalues()),
-            lexicon_hits[split])
+            lexicon_hits[split]))
     
     # Show POS distribution
     total_pos_count = defaultdict(lambda: 0)
@@ -488,10 +488,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         for pos in pos_count[split]:
             total_pos_count[pos] += pos_count[split][pos]
     nodes = sum(total_pos_count.itervalues())
-    print "\nTotal %d nodes" % nodes
-    print "-"*80 + "\n   POS   count  ratio\n" + "-"*80
+    print("\nTotal %d nodes" % nodes)
+    print("-"*80 + "\n   POS   count  ratio\n" + "-"*80)
     for pos, count in sorted(total_pos_count.iteritems(), key=lambda x: x[1], reverse=True)[:10]:
-        print "%6s %7d %5.1f%%" % (pos, count, count*100./nodes)
+        print("%6s %7d %5.1f%%" % (pos, count, count*100./nodes))
     
     # Show NE distribution in [train, validate]
     total_ne_count = defaultdict(lambda: 0)
@@ -500,10 +500,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         for ne in ne_count[split]:
             total_ne_count[ne] += ne_count[split][ne]
     nes = sum(total_ne_count.itervalues())
-    print "\nTotal %d spanned named entities in [train, validate]" % nes
-    print "-"*80 + "\n          NE  count  ratio\n" + "-"*80
+    print("\nTotal %d spanned named entities in [train, validate]" % nes)
+    print("-"*80 + "\n          NE  count  ratio\n" + "-"*80)
     for ne, count in sorted(total_ne_count.iteritems(), key=lambda x: x[1], reverse=True):
-        print "%12s %6d %5.1f%%" % (ne, count, count*100./nes)
+        print("%12s %6d %5.1f%%" % (ne, count, count*100./nes))
     
     # Show POS-NE distribution in [train, validate]
     total_pos_ne_count = defaultdict(lambda: 0)
@@ -511,10 +511,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         if split == "test": continue
         for pos in pos_ne_count[split]:
             total_pos_ne_count[pos] += pos_ne_count[split][pos]
-    print "-"*80 + "\n   POS     NE   total  ratio\n" + "-"*80
+    print("-"*80 + "\n   POS     NE   total  ratio\n" + "-"*80)
     for pos, count in sorted(total_pos_ne_count.iteritems(), key=lambda x: x[1], reverse=True)[:10]:
         total = total_pos_count[pos]
-        print "%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total)
+        print("%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total))
     
     # Compute the mapping to labels
     ne_to_index["NONE"] = len(ne_to_index)
@@ -530,10 +530,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
             len(character_to_index), len(pos_to_index), len(ne_to_index), len(lexicon_list))
 
 if __name__ == "__main__":
-    #extract_vocabulary_and_alphabet()
-    #extract_glove_embeddings()
+    extract_vocabulary_and_alphabet()
+    extract_glove_embeddings()
     #extract_clean_lexicon()
-    read_dataset()
+    #read_dataset()
     exit()
     
     

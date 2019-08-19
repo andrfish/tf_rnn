@@ -25,13 +25,13 @@ class Node(object):
         indent = "    " * depth
         for i in branch:
             indent = indent[:i] + "|" + indent[i+1:]
-        print "%s|--%s %s" % (indent, self.pos, self.head)
+        print("%s|--%s %s" % (indent, self.pos, self.head))
         
         branch2 = [i for i in branch]
         if self.right:
             branch2.append(depth*4)
         elif not self.child_list:
-            print indent
+            print(indent)
         
         for child in self.child_list:
             child.show_tree(depth+1, branch2)
@@ -786,9 +786,9 @@ def main():
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         L = sess.run(model.L)
-        print L.shape
+        print(L.shape)
         for v in tf.trainable_variables():
-            print v
+            print(v)
     return
     
 if __name__ == "__main__":

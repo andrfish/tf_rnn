@@ -89,7 +89,7 @@ def extract_ner(split):
         ner.append(sequential_label)
     """    
     for i, j in enumerate(sentence_list):
-        print ""
+        print(""
         print j
         print ner_list[i]
     """ 
@@ -428,12 +428,12 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         data[split] = {"tree_pyramid_list": tree_pyramid_list, "ner_list": ner_data[split]}
         
     # Show statistics of each data split 
-    print "-" * 80
-    print "%10s%10s%9s%9s%7s%12s%13s" % ("split", "sentence", "token", "node", "NE", "spanned_NE",
+    print("-" * 80
+    print("%10s%10s%9s%9s%7s%12s%13s" % ("split", "sentence", "token", "node", "NE", "spanned_NE",
         "lexicon_hit")
-    print "-" * 80
+    print("-" * 80
     for split in data_split_list:
-        print "%10s%10d%9d%9d%7d%12d%13d" % (split,
+        print("%10s%10d%9d%9d%7d%12d%13d" % (split,
             len(data[split]["tree_pyramid_list"]),
             word_count[split],
             sum(pos_count[split].itervalues()),
@@ -447,10 +447,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         for pos in pos_count[split]:
             total_pos_count[pos] += pos_count[split][pos]
     nodes = sum(total_pos_count.itervalues())
-    print "\nTotal %d nodes" % nodes
-    print "-"*80 + "\n   POS   count  ratio\n" + "-"*80
+    print("\nTotal %d nodes" % nodes
+    print("-"*80 + "\n   POS   count  ratio\n" + "-"*80
     for pos, count in sorted(total_pos_count.iteritems(), key=lambda x: x[1], reverse=True)[:10]:
-        print "%6s %7d %5.1f%%" % (pos, count, count*100./nodes)
+        print("%6s %7d %5.1f%%" % (pos, count, count*100./nodes)
     
     # Show NE distribution in [train, validate]
     total_ne_count = defaultdict(lambda: 0)
@@ -459,10 +459,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         for ne in ne_count[split]:
             total_ne_count[ne] += ne_count[split][ne]
     nes = sum(total_ne_count.itervalues())
-    print "\nTotal %d spanned named entities in [train, validate]" % nes
-    print "-"*80 + "\n          NE  count  ratio\n" + "-"*80
+    print("\nTotal %d spanned named entities in [train, validate]" % nes
+    print("-"*80 + "\n          NE  count  ratio\n" + "-"*80
     for ne, count in sorted(total_ne_count.iteritems(), key=lambda x: x[1], reverse=True):
-        print "%12s %6d %5.1f%%" % (ne, count, count*100./nes)
+        print("%12s %6d %5.1f%%" % (ne, count, count*100./nes)
     
     # Show POS-NE distribution
     total_pos_ne_count = defaultdict(lambda: 0)
@@ -470,10 +470,10 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
         if split == "test": continue
         for pos in pos_ne_count[split]:
             total_pos_ne_count[pos] += pos_ne_count[split][pos]
-    print "-"*80 + "\n   POS     NE   total  ratio\n" + "-"*80
+    print("-"*80 + "\n   POS     NE   total  ratio\n" + "-"*80
     for pos, count in sorted(total_pos_ne_count.iteritems(), key=lambda x: x[1], reverse=True)[:10]:
         total = total_pos_count[pos]
-        print "%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total)
+        print("%6s %6d %7d %5.1f%%" % (pos, count, total, count*100./total)
     
     # Compute the mapping to labels
     ne_to_index["NONE"] = len(ne_to_index)
@@ -491,11 +491,11 @@ def read_dataset(data_split_list = ["train", "validate", "test"]):
 if __name__ == "__main__":
     #prepare_dataset()
     """
-    print ""
+    print(""
     parse_string = "(ROOT (S (NP (NNP EU)) (VP (VBZ rejects) (NP (JJ German) (NN call)) (PP (TO to) (NP (NN boycott) (JJ British) (NN lamb)))) (. .)))"
     root = pstree.tree_from_text(parse_string)
     print_pstree(root, "")
-    print ""
+    print(""
     for i, j in head_finder.collins_find_heads(root).iteritems(): print i, j
     """
     #extract_glove_embeddings()

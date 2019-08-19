@@ -4,7 +4,7 @@
 import sys, os
 import pstree, treebanks, head_finder
 from collections import defaultdict
-from StringIO import StringIO
+from io import StringIO
 import re
 import codecs
 

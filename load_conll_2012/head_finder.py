@@ -80,7 +80,7 @@ def collins_NP(tree, head_map):
 
 	#TODO:todo handle NML properly
 	# Canasai's addition begin
-        pos_to_look = set(['NN', 'NNP', 'NNPS', 'NNS', 'NX', 'POS', 'JJR'])
+	pos_to_look = set(['NN', 'NNP', 'NNPS', 'NNS', 'NX', 'POS', 'JJR'])
 	# NP -> NP , NP ,
 	if (len(tree.subtrees) == 4 and
 	    tree.subtrees[0].label == 'NP' and
@@ -110,8 +110,8 @@ def collins_NP(tree, head_map):
 	# Canasai's addition end
 
 	if get_head(head_map, tree.subtrees[-1])[2] == 'POS':
-		# Canasai's comment out: add_head(head_map, tree, get_head(head_map, tree.subtrees[-1]))
-                if len(tree.subtrees) > 1:
+	# Canasai's comment out: add_head(head_map, tree, get_head(head_map, tree.subtrees[-1]))
+		if len(tree.subtrees) > 1:
 			add_head(head_map, tree, get_head(head_map, tree.subtrees[-2]))
 		else:
 			add_head(head_map, tree, get_head(head_map, tree.subtrees[-1]))
@@ -340,7 +340,7 @@ Else return the last word
 
 
 if __name__ == "__main__":
-	print "Running doctest"
+	print("Running doctest")
 	import doctest
 	doctest.testmod()
 
