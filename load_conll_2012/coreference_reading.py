@@ -131,7 +131,7 @@ def read_conll_coref(lines):
                 else:
                     val = int(triple[2][:-1])
                     if (sentence, val) not in unmatched_mentions:
-                        print >> sys.stderr, "Ignoring a mention with no start", str(val), line.strip(), line_no
+                        print(sys.stderr, "Ignoring a mention with no start", str(val), line.strip(), line_no)
                         continue
                     if len(unmatched_mentions[(sentence, val)]) == 0:
                         print >> sys.stderr, "No other start available", str(val), line.strip(), line_no
@@ -139,7 +139,7 @@ def read_conll_coref(lines):
                     start = unmatched_mentions[(sentence, val)].pop()
                 end = word + 1
                 if (sentence, start, end) in mentions:
-                    print >> sys.stderr, "Duplicate mention", sentence, start, end, val, mentions[sentence, start, end]
+                    print("Duplicate mention", sentence, start, end, val, mentions[sentence, start, end])
                 else:
                     mentions[sentence, start, end] = val
                     if val not in clusters:
@@ -148,7 +148,7 @@ def read_conll_coref(lines):
         word += 1
     for key in unmatched_mentions:
         if len(unmatched_mentions[key]) > 0:
-            print >> sys.stderr, "Mention started, but did not end ", str(unmatched_mentions[key])
+            print(sys.stderr, "Mention started, but did not end ", str(unmatched_mentions[key]))
     return mentions, clusters
 
 
@@ -165,7 +165,7 @@ def read_conll_doc(filename, ans=None, rtext=True, rparses=True, rheads=True, rc
                 keys = (location, desc[-1])
             if len(cur) > 0:
                 if keys is None:
-                    print >> sys.stderr, "Error reading conll file - invalid #begin statemen\n", line
+                    print(sys.stderr, "Error reading conll file - invalid #begin statemen\n", line)
                 else:
                     info = {}
                     if rtext:

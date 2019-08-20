@@ -3,6 +3,7 @@ import coreference_reading
 def load_data(config):
     suffix = config["file_suffix"]
     dir_prefix = config["dir_prefix"]
+
     print("Load conll documents from:", dir_prefix, " with suffix = ", suffix)
     data = None
     count = 0

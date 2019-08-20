@@ -66,7 +66,7 @@ def extract_vocabulary_and_alphabet():
         for document in raw_data:
             for part in raw_data[document]:
                 for index, sentence in enumerate(raw_data[document][part]["text"]):
-                    for word in sentence:
+                    for word in sentence: 
                         for character in word:
                             character_set.add(character)
                         word_set.add(word)
@@ -86,16 +86,20 @@ def extract_glove_embeddings():
     log("extract_glove_embeddings()...")
     
     _, word_to_index = read_list_file(word_file)
+    print(word_to_index)
     word_list = []
     embedding_list = []
-    with open(glove_file, "r") as f:
-        for line in f:
-            line = line.strip().split()
-            word = line[0]
-            if word not in word_to_index: continue
-            embedding = np.array([float(i) for i in line[1:]])
-            word_list.append(word)
-            embedding_list.append(embedding)
+    with open(glove_file, "r", errors='ignore') as f:
+        try:
+            for line in f:
+                line = line.strip().split()
+                word = line[0]
+                if word not in word_to_index: continue
+                embedding = np.array([float(i) for i in line[1:]])
+                word_list.append(word)
+                embedding_list.append(embedding)
+        except:
+            print("Error with", f)
     
     np.save(pretrained_word_file, word_list)
     np.save(pretrained_embedding_file, embedding_list)

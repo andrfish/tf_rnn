@@ -186,34 +186,34 @@ def train_model(dataset, pretrain):
     best_score = (-1, -1, -1)
     best_loss = float("inf")
     for epoch in xrange(1, max_epoches+1):
-        print("\n<Epoch %d>" % epoch
+        print("\n<Epoch %d>" % epoch)
         
         start_time = time.time()
         loss = train_an_epoch(model, data["train"]["tree_pyramid_list"])
-        print("[train] average loss %.3f; elapsed %.0fs" % (loss, time.time()-start_time)
+        print("[train] average loss %.3f; elapsed %.0fs" % (loss, time.time()-start_time))
         
         start_time = time.time()
         ner_hat_list = predict_dataset(model, data["validate"]["tree_pyramid_list"], ne_list)
         score = evaluate_prediction(data["validate"]["ner_list"], ner_hat_list)
-        print("[validate] precision=%.1f%% recall=%.1f%% f1=%.3f%%; elapsed %.0fs;" % (score+(time.time()-start_time,)),
+        print("[validate] precision=%.1f%% recall=%.1f%% f1=%.3f%%; elapsed %.0fs;" % (score+(time.time()-start_time,)))
         
         if best_score[2] < score[2]:
-            print("best"
+            print("best")
             best_epoch = epoch
             best_score = score
             best_loss = loss
             saver.save(model.sess, "tmp.model")
         else:
-            print("worse #%d" % (epoch-best_epoch)
+            print("worse #%d" % (epoch-best_epoch))
         if epoch-best_epoch >= patience: break
     
-    print("\n<Best Epoch %d>" % best_epoch
-    print("[train] average loss %.3f" % best_loss
-    print("[validate] precision=%.1f%% recall=%.1f%% f1=%.3f%%" % best_score
+    print("\n<Best Epoch %d>" % best_epoch)
+    print("[train] average loss %.3f" % best_loss)
+    print("[validate] precision=%.1f%% recall=%.1f%% f1=%.3f%%" % best_score)
     saver.restore(model.sess, "./tmp.model")
     ner_hat_list = predict_dataset(model, data["test"]["tree_pyramid_list"], ne_list)
     score = evaluate_prediction(data["test"]["ner_list"], ner_hat_list)
-    print("[test] precision=%.1f%% recall=%.1f%% f1=%.3f%%" % score
+    print("[test] precision=%.1f%% recall=%.1f%% f1=%.3f%%" % score)
     return
 
 def ner_diff(ner_a_list, ner_b_list):
@@ -224,9 +224,9 @@ def ner_diff(ner_a_list, ner_b_list):
     ner: a dict of span-ne pairs
     """
     sentences = len(ner_a_list)
-    print("%d sentences" % sentences
-    print("a: %d nes" % sum(len(ner) for ner in ner_a_list)
-    print("b: %d nes" % sum(len(ner) for ner in ner_b_list)
+    print("%d sentences" % sentences)
+    print("a: %d nes" % sum(len(ner) for ner in ner_a_list))
+    print("b: %d nes" % sum(len(ner) for ner in ner_b_list))
     
     ner_aa_list = []
     ner_bb_list = []
@@ -254,10 +254,10 @@ def write_ner(target_file, text_raw_data, ner_list):
     ner_list: a list of the ner prediction of each sentence
     ner: a dict of span-ne pairs
     """
-    print(""
-    print target_file
+    print("")
+    print(target_file)
     sentences = len(text_raw_data)
-    print("%d sentences" % sentences
+    print("%d sentences" % sentences)
     
     with codecs.open(target_file, "w", encoding="utf8") as f:
         for i in xrange(sentences):
@@ -268,7 +268,7 @@ def write_ner(target_file, text_raw_data, ner_list):
                 text_chunk = " ".join(text_raw_data[i][span[0]:span[1]])
                 f.write("%d %d %s <%s>\n" % (span[0], span[1], ne, text_chunk))
     
-    print("%d nes" % sum(len(ner) for ner in ner_list)
+    print("%d nes" % sum(len(ner) for ner in ner_list))
     return
 
 def read_ner(source_file):
@@ -306,7 +306,7 @@ def evaluate_model(dataset, split):
     saver.restore(model.sess, "./tmp.model")
     ner_hat_list = predict_dataset(model, data[split]["tree_pyramid_list"], ne_list)
     score = evaluate_prediction(data[split]["ner_list"], ner_hat_list)
-    print("[%s]" % split + " precision=%.1f%% recall=%.1f%% f1=%.3f%%" % score
+    print("[%s]" % split + " precision=%.1f%% recall=%.1f%% f1=%.3f%%" % score)
     """
     # YOLO
     text_raw_data = [tree.text_raw_data for tree, pyramid in data[split]["tree_pyramid_list"]]
@@ -322,9 +322,9 @@ def compare_model(dataset, split, bad_ner_file, good_ner_file, diff_file):
     gold_ner_list = data[split]["ner_list"]
     
     bad_index_ner = read_ner(bad_ner_file)
-    print("bad: %d nes", sum(len(ner) for index, ner in bad_index_ner.iteritems())
+    print("bad: %d nes", sum(len(ner) for index, ner in bad_index_ner.iteritems()))
     good_index_ner = read_ner(good_ner_file)
-    print("good: %d nes", sum(len(ner) for index, ner in good_index_ner.iteritems())
+    print("good: %d nes", sum(len(ner) for index, ner in good_index_ner.iteritems()))
     
     index_span = {}
     for sentence_index in bad_index_ner:
